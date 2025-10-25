@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Turnamen Padel Strategis: Medan</title>
+    <!-- Load Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Chart.js untuk visualisasi data -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .metric-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .prize-table, .registration-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .prize-table th, .prize-table td, .registration-table th, .registration-table td {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            vertical-align: middle;
+            color: #333; 
+        }
+        .prize-table thead th, .registration-table thead th {
+            background-color: #eff6ff;
+            color: #1e40af;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Proposal Turnamen Padel Strategis: Medan</h1>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-600">
+                <a href="#ringkasan" class="hover:text-blue-600 transition-colors">Ringkasan Eksekutif</a>
+                <a href="#anggaran" class="hover:text-blue-600 transition-colors">Analisis Anggaran</a>
+                <a href="#sponsor" class="hover:text-blue-600 transition-colors">Strategi Sponsorship</a>
+                <a href="#workflow" class="hover:text-blue-600 transition-colors">Struktur Kompetisi</a>
+                <a href="#keuntungan" class="hover:text-blue-600 transition-colors">Laba dan Nilai Strategis</a>
+            </div>
+            <div class="md:hidden">
+                <select id="mobile-nav" class="bg-gray-100 border border-gray-300 rounded-md p-2 text-sm">
+                    <option value="#ringkasan">Ringkasan Eksekutif</option>
+                    <option value="#anggaran">Analisis Anggaran</option>
+                    <option value="#sponsor">Strategi Sponsorship</option>
+                    <option value="#workflow">Struktur Kompetisi</option>
+                    <option value="#keuntungan">Laba dan Nilai Strategis</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Ringkasan Section -->
+        <section id="ringkasan" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Ringkasan Eksekutif Proyek</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Dokumen ini menyajikan proposal strategis untuk menyelenggarakan turnamen padel 3 hari di Medan. Dengan target ambisius **160 Pasangan (320 Pemain)** dan total hadiah sebesar **Rp 400 Juta** yang terbagi dalam **6 kategori**, kami memproyeksikan profitabilitas tinggi, sekaligus mengokohkan posisi *brand* kita sebagai pemimpin pasar di Sumatera Utara.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="metric-card bg-blue-50">
+                    <h3 class="text-sm font-medium text-gray-500">Total Pemain (Baru)</h3>
+                    <p class="text-3xl font-bold text-blue-600">320 Orang</p>
+                </div>
+                <div class="metric-card">
+                    <h3 class="text-sm font-medium text-gray-500">Total Anggaran Biaya</h3>
+                    <p class="text-3xl font-bold text-red-500">Rp 538,6 Jt</p>
+                </div>
+                <div class="metric-card bg-green-50">
+                    <h3 class="text-sm font-medium text-gray-500">Target Revenue Bruto</h3>
+                    <p class="text-3xl font-bold text-green-500">Rp 656,4 Jt</p>
+                </div>
+                <div class="metric-card bg-yellow-50">
+                    <h3 class="text-sm font-medium text-gray-500">Proyeksi Laba Bersih (Stabil)</h3>
+                    <p class="text-3xl font-bold text-green-600">Rp 117,8 Jt</p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Distribusi Alokasi Biaya Turnamen</h3>
+                <div class="chart-container">
+                    <canvas id="costAllocationChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anggaran Section -->
+        <section id="anggaran" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Analisis Anggaran Operasional dan Modal</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Hadiah untuk kategori Woman Bronze Lower telah disesuaikan. Total Hadiah Tunai tetap **Rp 400 Juta** dan alokasi dana kontingensi telah ditingkatkan menjadi **Rp 12,5 Juta**.
+            </p>
+            <div class="grid grid-cols-1 lg:col-cols-5 gap-8">
+                <div class="lg:col-span-3 bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-6 text-gray-800">Tabel Rincian Biaya (Total: Rp 538.600.000)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                                <tr>
+                                    <th class="px-6 py-3">Komponen Biaya</th>
+                                    <th class="px-6 py-3">Jumlah (IDR)</th>
+                                    <th class="px-6 py-3">Keterangan Strategis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Biaya Pendaftaran Detail START -->
+                                <tr class="bg-white border-b"><td colspan="3" class="px-6 py-2 font-bold text-gray-700">Rincian Pendapatan Registrasi Peserta (Total: Rp 126.400.000)</td></tr>
+                                <tr>
+                                    <td colspan="3" class="p-0">
+                                        <div class="p-4 bg-indigo-50/50">
+                                            <h4 class="font-semibold text-gray-700 mb-3">Struktur Biaya Pendaftaran (Total 160 Pasang / 320 Pemain):</h4>
+                                            <table class="registration-table text-xs">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Kategori</th>
+                                                        <th>Biaya Reg. / Pasang</th>
+                                                        <th>Target Pasangan</th>
+                                                        <th>Revenue Kategori</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="bg-blue-50">
+                                                        <td class="font-medium text-blue-600">Open</td>
+                                                        <td>Rp 1.000.000</td>
+                                                        <td>32</td>
+                                                        <td>Rp 32.000.000</td>
+                                                    </tr>
+                                                    <tr class="bg-green-50">
+                                                        <td class="font-medium text-green-600">Silver</td>
+                                                        <td>Rp 900.000</td>
+                                                        <td>32</td>
+                                                        <td>Rp 28.800.000</td>
+                                                    </tr>
+                                                    <tr class="bg-yellow-50">
+                                                        <td class="font-medium text-yellow-700">Bronze Upper</td>
+                                                        <td>Rp 800.000</td>
+                                                        <td>32</td>
+                                                        <td>Rp 25.600.000</td>
+                                                    </tr>
+                                                    <tr class="bg-gray-50">
+                                                        <td class="font-medium text-gray-600">Bronze Lower</td>
+                                                        <td>Rp 700.000</td>
+                                                        <td>32</td>
+                                                        <td>Rp 22.400.000</td>
+                                                    </tr>
+                                                    <tr class="bg-pink-100">
+                                                        <td class="font-medium text-pink-600">Woman Bronze Upper</td>
+                                                        <td>Rp 600.000</td>
+                                                        <td>16</td>
+                                                        <td>Rp 9.600.000</td>
+                                                    </tr>
+                                                    <tr class="bg-pink-50">
+                                                        <td class="font-medium text-pink-600">Woman Bronze Lower</td>
+                                                        <td>Rp 500.000</td>
+                                                        <td>16</td>
+                                                        <td>Rp 8.000.000</td>
+                                                    </tr>
+                                                    <tr class="font-bold bg-gray-200 border-t-2 border-gray-400">
+                                                        <td colspan="2">TOTAL PASANGAN TARGET</td>
+                                                        <td>160</td>
+                                                        <td class="text-right text-green-700">Rp 126.400.000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Biaya Pendaftaran Detail END -->
+                                
+                                <!-- Prize Money Detail START -->
+                                <tr class="bg-white border-b"><td colspan="3" class="px-6 py-2 font-bold text-blue-700">Total Hadiah (Rp 400.000.000) - ALOKASI FINAL</td></tr>
+                                <tr>
+                                    <td colspan="3" class="p-0">
+                                        <div class="p-4 bg-blue-50/50">
+                                            <h4 class="font-semibold text-gray-700 mb-3">Detail Alokasi Hadiah Utama (Champion, Runner-up, Semi Finalis):</h4>
+                                            <table class="prize-table text-xs">
+                                                <thead>
+                                                    <tr class="bg-blue-200">
+                                                        <th>Kategori (Pasangan)</th>
+                                                        <th>Champion</th>
+                                                        <th>Runner Up</th>
+                                                        <th>Semi Finalis (2 Pasang x)</th>
+                                                        <th>Total Kategori</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="bg-blue-50">
+                                                        <td class="font-medium text-blue-600">Open (32P)</td>
+                                                        <td>Rp 100.000.000</td>
+                                                        <td>Rp 50.000.000</td>
+                                                        <td>Rp 25.000.000</td>
+                                                        <td class="font-bold">Rp 200.000.000</td>
+                                                    </tr>
+                                                    <tr class="bg-green-50">
+                                                        <td class="font-medium text-green-600">Silver (32P)</td>
+                                                        <td>Rp 40.000.000</td>
+                                                        <td>Rp 20.000.000</td>
+                                                        <td>Rp 10.000.000</td>
+                                                        <td class="font-bold">Rp 80.000.000</td>
+                                                    </tr>
+                                                    <tr class="bg-yellow-50">
+                                                        <td class="font-medium text-yellow-700">Bronze Upper (32P)</td>
+                                                        <td>Rp 20.000.000</td>
+                                                        <td>Rp 10.000.000</td>
+                                                        <td>-</td>
+                                                        <td class="font-bold">Rp 30.000.000</td>
+                                                    </tr>
+                                                    <tr class="bg-gray-50">
+                                                        <td class="font-medium text-gray-600">Bronze Lower (32P)</td>
+                                                        <td>Rp 18.000.000</td>
+                                                        <td>Rp 9.000.000</td>
+                                                        <td>-</td>
+                                                        <td class="font-bold">Rp 27.000.000</td>
+                                                    </tr>
+                                                    <tr class="bg-pink-100">
+                                                        <td class="font-medium text-pink-600">Woman Bronze Upper (16P)</td>
+                                                        <td>Rp 15.000.000</td>
+                                                        <td>Rp 7.500.000</td>
+                                                        <td>-</td>
+                                                        <td class="font-bold">Rp 22.500.000</td>
+                                                    </tr>
+                                                    <tr class="bg-pink-50">
+                                                        <td class="font-medium text-pink-600">Woman Bronze Lower (16P)</td>
+                                                        <td>Rp 12.000.000</td>
+                                                        <td>Rp 6.000.000</td>
+                                                        <td>-</td>
+                                                        <td class="font-bold">Rp 18.000.000</td>
+                                                    </tr>
+                                                    <tr class="font-bold bg-gray-200 border-t-2 border-gray-400">
+                                                        <td colspan="4" class="text-right pr-4">SUBTOTAL HADIAH C + RU + SF (377.5 Jt)</td>
+                                                        <td class="text-right text-gray-700">Rp 377.500.000</td>
+                                                    </tr>
+                                                    
+                                                    <!-- MVP ALOCATION -->
+                                                    <tr class="font-bold bg-purple-100">
+                                                        <td colspan="4" class="text-purple-700">HADIAH KHUSUS: MVP Man (5 Jt) & Woman (5 Jt)</td>
+                                                        <td class="text-right text-purple-700">Rp 10.000.000</td>
+                                                    </tr>
+                                                    
+                                                    <!-- UPDATED CONTINGENCY -->
+                                                    <tr class="font-bold bg-gray-200">
+                                                        <td colspan="4" class="text-gray-700">ALOKASI KONTINGENSI (Sisa Dana untuk Tak Terduga)</td>
+                                                        <td class="text-right font-bold text-green-700">Rp 12.500.000</td>
+                                                    </tr>
+                                                    
+                                                    <tr class="font-bold bg-gray-300 border-t-2 border-gray-500">
+                                                        <td colspan="4">GRAND TOTAL HADIAH TUNAI</td>
+                                                        <td class="text-right text-gray-900">Rp 400.000.000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Prize Money Detail END -->
+                                
+                                <tr class="bg-white border-b"><td colspan="3" class="px-6 py-2 font-bold text-blue-700">Biaya Operasional Inti (Rp 73.000.000)</td></tr>
+                                <tr class="bg-white border-b bg-green-50/50"><td class="px-6 py-4 font-semibold">Sewa 4 Lapangan</td><td class="px-6 py-4 font-semibold text-green-600">Rp 0</td><td class="px-6 py-4 text-sm italic">**Penghematan Aset Internal:** Pemanfaatan 4 lapangan milik sendiri meniadakan biaya sewa dan meningkatkan margin profit.</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-semibold">Event Organizer (EO)</td><td class="px-6 py-4">Rp 10.000.000</td><td class="px-6 py-4">Fokus pada koordinasi tim internal untuk efisiensi maksimal.</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Dokumentasi (Fotografer/Videografer)</td><td class="px-6 py-4">Rp 15.000.000</td><td class="px-6 py-4">Liputan visual profesional 3 hari.</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Wasit Profesional</td><td class="px-6 py-4">Rp 12.000.000</td><td class="px-6 py-4">Menjamin integritas dan kualitas pertandingan.</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Photobooth Interaktif</td><td class="px-6 py-4">Rp 5.000.000</td><td class="px-6 py-4">Aktivasi dan interaksi peserta.</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Tim Medis Siaga</td><td class="px-6 py-4">Rp 3.000.000</td><td class="px-6 py-4">Aspek keselamatan peserta.</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-semibold text-gray-900">Medali dan Piala (Trophy)</td><td class="px-6 py-4 font-semibold text-gray-900">Rp 10.000.000</td>
+                                    <td class="px-6 py-4 text-sm italic">Alokasi untuk **12 unit Piala** (Champion/Runner-up 6 kategori) dan Medali.
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Biaya Administratif & Logistik</td><td class="px-6 py-4">Rp 10.000.000</td><td class="px-6 py-4">Meliputi izin dan kebersihan.</td></tr>
+
+                                <tr class="bg-white border-b"><td colspan="3" class="px-6 py-2 font-bold text-blue-700">Biaya Peserta (Total: Rp 65.600.000)</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Jersey Pemain Kustom</td><td class="px-6 py-4">Rp 41.600.000</td><td class="px-6 py-4">**320 pemain** x Rp 130rb (Sebagai media branding sponsor utama).</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4">Merchandise Goodwill</td><td class="px-6 py-4">Rp 24.000.000</td><td class="px-6 py-4">Disesuaikan untuk volume peserta yang lebih besar (160 pasang) untuk mempertahankan loyalitas.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 space-y-8">
+                     <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold mb-6 text-gray-800">Proyeksi Pendapatan Bruto (Total: Rp 656.400.000)</h3>
+                        <ul class="space-y-4">
+                            <li class="flex justify-between items-center"><span class="font-medium text-gray-600">Sponsor Korporasi (Target)</span><span class="font-bold text-lg text-green-600">Rp 450.000.000</span></li>
+                            <li class="flex justify-between items-center"><span class="font-medium">Registrasi Peserta (160 Pasang)</span><span class="font-bold text-lg text-gray-900">Rp 126.400.000</span></li>
+                            <li class="flex justify-between items-center"><span class="font-medium text-gray-600">Pendapatan Sewa Stand (8 unit)</span><span class="font-bold text-lg text-orange-600">Rp 80.000.000</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Komposisi Biaya Operasional (Juta Rupiah)</h3>
+                        <div class="chart-container" style="max-width: 100%; height: 300px;">
+                            <canvas id="operationalCostsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sponsor Section -->
+        <section id="sponsor" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Strategi Sponsorship dan *Value Proposition*</h2>
+             <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Dengan **320 pemain** terdaftar, daya tarik (leverage) negosiasi dengan sponsor meningkat signifikan. Kami menawarkan platform visibilitas premium dengan target sponsor Rp 450 Juta.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-6 text-blue-600">Paket Sewa Booth Komersial (8 Slot Tersedia)</h3>
+                    <div class="text-center mb-6">
+                        <p class="text-4xl font-bold text-blue-600">Rp 10.000.000</p>
+                        <p class="text-gray-500">per unit / 3 hari acara</p>
+                    </div>
+                    <h4 class="font-bold mb-2">Fasilitas Stand (3x3m):</h4>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Lokasi strategis dengan traffic pengunjung tinggi.</li>
+                        <li>Disediakan meja, kursi, dan akses listrik.</li>
+                        <li>Peluang demonstrasi produk/jasa.</li>
+                        <li>Visibilitas logo pada peta acara.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                     <h3 class="text-xl font-bold mb-6 text-blue-600">Manfaat Utama bagi Mitra Sponsor</h3>
+                     <ul class="list-disc list-inside text-gray-600 space-y-2">
+                         <li><b>Eksposur Atlet (2x Lipat):</b> Logo utama tercetak pada **320 Jersey Pemain Kustom**.</li>
+                         <li><b>Branding Lokasi:</b> Penempatan logo *prominent* di 4 lapangan utama.</li>
+                         <li><b>Iklan Lisan:</b> Promosi verbal rutin dari MC selama 3 hari.</li>
+                         <li><b>Digital Presence:</b> Kampanye terintegrasi di seluruh kanal media sosial resmi turnamen.</li>
+                         <li><b>Aktivasi Langsung:</b> Hak eksklusif untuk aktivasi *on-site* dengan audiens target.</li>
+                         <li><b>Liputan Media:</b> Jaminan penyebutan di siaran pers dan liputan media lokal/regional.</li>
+                     </ul>
+                </div>
+            </div>
+             <div class="mt-8 bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Komposisi Sumber Pendanaan Proyek</h3>
+                <div class="chart-container">
+                    <canvas id="revenueSourceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section id="workflow" class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Struktur & Alur Kompetisi 3 Hari</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Turnamen akan diselenggarakan selama 3 hari, dengan total **160 pasangan** dari 6 kategori. Dengan kuota **32 pasang** di kategori Open, Silver, dan Bronze, kami akan membutuhkan jadwal pertandingan yang sangat ketat dan efisien di 4 lapangan.
+            </p>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-bold mb-4 text-gray-700 text-center">Rincian Format Pertandingan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-bold text-blue-600">Klasifikasi Kategori</h4>
+                        <p>Open (32P), Silver (32P), Bronze Upper (32P), Bronze Lower (32P), W Bronze Upper (16P), W Bronze Lower (16P)</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-bold text-blue-600">Sistem Eliminasi</h4>
+                        <p>Fase Grup (4 tim per pool), diikuti Babak Gugur. Total akan ada 40 grup di hari pertama.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-bold text-blue-600">Sistem Skor</h4>
+                        <p>Best of 3 Sets. Untuk penyisihan awal, mungkin akan diterapkan *short set* untuk efisiensi waktu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                 <h3 class="text-xl font-bold mb-6 text-gray-700 text-center">Jadwal Utama Per Hari</h3>
+                 <div class="flex flex-col md:flex-row justify-center items-stretch gap-4">
+                    <!-- Day 1 -->
+                    <div class="flex-1 bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                        <h4 class="font-bold text-lg mb-2">Hari 1: Fase Grup Massif</h4>
+                        <p class="text-sm text-gray-500 mb-4">Jumat (Durasi Penuh)</p>
+                        <ul class="text-sm space-y-2 text-gray-600">
+                            <li>Technical Meeting & Proses Drawing Resmi.</li>
+                            <li>Seluruh pertandingan fase grup (total **40 grup**).</li>
+                            <li>Memastikan setiap tim memainkan minimal 2 pertandingan.</li>
+                        </ul>
+                    </div>
+                    <!-- Day 2 -->
+                    <div class="flex-1 bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                        <h4 class="font-bold text-lg mb-2">Hari 2: Babak 32 Besar & 16 Besar</h4>
+                        <p class="text-sm text-gray-500 mb-4">Sabtu</p>
+                        <ul class="text-sm space-y-2 text-gray-600">
+                            <li>Pelaksanaan Babak 32 Besar untuk kategori 32 Pasangan.</li>
+                            <li>Pelaksanaan Babak 16 Besar & Perempat Final (Semua Kategori).</li>
+                        </ul>
+                    </div>
+                    <!-- Day 3 -->
+                    <div class="flex-1 bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                        <h4 class="font-bold text-lg mb-2">Hari 3: Final & Seremoni Puncak</h4>
+                        <p class="text-sm text-gray-500 mb-4">Minggu</p>
+                        <ul class="text-sm space-y-2 text-gray-600">
+                            <li>Pertandingan Semi Final.</li>
+                            <li>Pertandingan Final untuk penentuan juara setiap 6 kategori.</li>
+                            <li>Upacara penyerahan hadiah, termasuk Hadiah MVP, dan penutupan.</li>
+                        </ul>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Keuntungan Section -->
+        <section id="keuntungan">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Laba dan Nilai Strategis Perusahaan</h2>
+             <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Peningkatan volume peserta dan penyesuaian harga memvalidasi struktur biaya registrasi yang baru dan memperkuat margin keuntungan proyek.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <h3 class="text-xl font-bold mb-4 text-blue-600">Proyeksi Keunggulan Finansial</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                        <li><b>Potensi Profit Inti (Stabil):</b> Keuntungan bersih diproyeksikan mencapai <b>Rp 117,8 Juta</b>.</li>
+                        <li><b>Manajemen Aset:</b> Penghematan biaya sewa lapangan sebesar <b>Rp 67,2 Juta</b> melalui penggunaan aset internal.</li>
+                        <li><b>Dampak Registrasi:</b> Pendapatan dari Registrasi kini menyumbang 19.2% dari total pendapatan bruto, menjamin stabilitas pendapatan.</li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <h3 class="text-xl font-bold mb-4 text-blue-600">Memperkuat Posisi Pasar & Brand Value</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                        <li><b>Rekor Turnamen:</b> Menyelenggarakan turnamen dengan jumlah peserta terbesar di Padel regional.</li>
+                        <li><b>Ekuitas Sponsor:</b> Tingkat visibilitas sponsor maksimal berkat 320 pemain yang membawa *jersey* dengan logo sponsor.</li>
+                        <li><b>Hub Komunitas:</b> Mengukuhkan lokasi sebagai pusat interaksi dan kompetisi padel regional.</li>
+                        <li><b>Daya Tarik Elit:</b> Hadiah Semi Finalis Open & Silver, serta Hadiah MVP, semakin menarik atlet terbaik.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-4 text-center text-sm">
+            <p>&copy; 2025 Proposal Turnamen Padel Strategis. Disiapkan untuk presentasi eksekutif.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.addEventListener('change', function() {
+                window.location.hash = this.value;
+            });
+
+            const formatCurrency = (value) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(value);
+            
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#1f2937'; 
+
+            // Define colors
+            const COLOR_PRIMARY = '#3b82f6'; // Blue
+            const COLOR_SECONDARY = '#ef4444'; // Red
+            const COLOR_TERTIARY = '#f97316'; // Orange
+            const COLOR_SUCCESS = '#10b981'; // Green
+
+            // --- DATA PERHITUNGAN (UNMODIFIED COST/REVENUE) ---
+            const prizeMoney = 400000000; 
+            const fixedOpexCost = 73000000; 
+            const newPlayerJerseyCost = 41600000;
+            const newMerchandiseCost = 24000000; 
+            const newTotalPlayerCost = newPlayerJerseyCost + newMerchandiseCost; 
+            
+            const newTotalCost = prizeMoney + fixedOpexCost + newTotalPlayerCost; // 538.6M
+
+            const newRegistrationRevenue = 126400000; 
+            const sponsorRevenue = 450000000;
+            const standRevenue = 80000000;
+            
+            const newTotalRevenue = newRegistrationRevenue + sponsorRevenue + standRevenue; // 656.4M
+
+
+            // 1. Data untuk Alokasi Biaya (Total Hadiah, Opex, Peserta)
+            const costAllocationData = {
+                labels: ['Total Hadiah', 'Biaya Operasional Inti', 'Biaya Peserta & Goodwill'],
+                datasets: [{
+                    label: 'Distribusi Alokasi Biaya',
+                    data: [prizeMoney, fixedOpexCost, newTotalPlayerCost],
+                    backgroundColor: [COLOR_PRIMARY, COLOR_SECONDARY, COLOR_TERTIARY],
+                    hoverOffset: 4
+                }]
+            };
+
+            const costAllocationCtx = document.getElementById('costAllocationChart').getContext('2d');
+            new Chart(costAllocationCtx, {
+                type: 'doughnut',
+                data: costAllocationData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += formatCurrency(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. Data untuk Biaya Operasional (Bar Chart)
+            const operationalCostsData = {
+                labels: ['Sewa Lapangan', 'EO', 'Bola Turnamen', 'Dokumentasi', 'Wasit', 'Photobooth', 'Tim Medis', 'Logistik', 'Medali & Piala'],
+                datasets: [{
+                    label: 'Biaya Operasional (dalam Juta Rupiah)',
+                    data: [0, 10, 8, 15, 12, 5, 3, 10, 10], 
+                    backgroundColor: [
+                        '#d1d5db', 
+                        '#fb923c', 
+                        '#fcd34d', 
+                        '#34d399', 
+                        '#60a5fa', 
+                        '#a78bfa', 
+                        '#f87171', 
+                        '#9ca3af',  
+                        '#be123c'   
+                    ],
+                    borderColor: '#1f2937',
+                    borderWidth: 1
+                }]
+            };
+
+            const operationalCostsCtx = document.getElementById('operationalCostsChart').getContext('2d');
+            new Chart(operationalCostsCtx, {
+                type: 'bar',
+                data: operationalCostsData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                           display: false
+                        },
+                         tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += `Rp ${context.parsed.x} Juta`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e5e7eb'
+                            },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return 'Rp ' + value + ' Jt';
+                                }
+                            }
+                        },
+                         y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 3. Chart Sumber Pendanaan - Updated Revenue
+            const revenueSourceData = {
+                labels: ['Sponsor Korporasi', 'Registrasi Peserta', 'Pendapatan Sewa Stand'],
+                datasets: [{
+                    label: 'Komponen Sumber Pendanaan',
+                    data: [sponsorRevenue, newRegistrationRevenue, standRevenue],
+                    backgroundColor: [
+                        COLOR_SUCCESS, 
+                        COLOR_PRIMARY, 
+                        COLOR_TERTIARY 
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+
+            const revenueSourceCtx = document.getElementById('revenueSourceChart').getContext('2d');
+            new Chart(revenueSourceCtx, {
+                type: 'pie',
+                data: revenueSourceData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += formatCurrency(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
